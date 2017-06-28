@@ -163,7 +163,7 @@ public class ClockView extends ViewGroup {
             for (Segment it : mData) {
                 mClockPaint.setShader(it.mShader);
                 canvas.drawArc(mBounds,
-                        360 - it.mEndAngle,
+                        360 - 90 + it.mStartAngle,
                         it.mEndAngle - it.mStartAngle,
                         true,
                         mClockPaint);
