@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class ClockView extends ViewGroup {
 
     public int addItem(float value, int color) {
         Segment it = new Segment();
-        it.mColor = color;
+        it.mColor = ContextCompat.getColor(getContext(), color);
         it.mValue = value;
 
         mData.add(it);

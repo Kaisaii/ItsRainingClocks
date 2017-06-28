@@ -8,17 +8,28 @@
             type="kaisaii.itsrainingclocks.interfaces.home.ActivityHomeVM"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_width="match_parent">
 
         <kaisaii.itsrainingclocks.interfaces.ClockView
-            android:layout_gravity="center"
-            android:id="@+id/pie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/pm_weather"
+            android:layout_width="300dp"
+            android:layout_centerInParent="true"
+            android:layout_height="300dp"
             android:padding="10dp" />
-    </LinearLayout>
+
+        <kaisaii.itsrainingclocks.interfaces.ClockView
+            android:id="@+id/am_weather_background"
+            android:layout_centerInParent="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+
+        <kaisaii.itsrainingclocks.interfaces.ClockView
+            android:id="@+id/am_weather"
+            android:layout_centerInParent="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+
+    </RelativeLayout>
 </layout>
