@@ -3,4 +3,29 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="sun">#64ffea00</color>
+    <color name="sun_cloudy">#64E1CE9A</color>
+    <color name="cloud_soft">#64b1b1b1</color>
+    <color name="cloud_medium">#64808080</color>
+    <color name="cloud_strong">#644f4f4f</color>
+    <color name="rain_soft">#64004db5</color>
+    <color name="rain_medium">#64003782</color>
+    <color name="rain_strong">#6400214f</color>
+    <color name="snow">#64007882</color>
+    <color name="hail">#6400494f</color>
+    <color name="storm">#64003136</color>
+
+
+    <color name="sun_active">#ffea00</color>
+    <color name="sun_cloudy_active">#E1CE9A</color>
+    <color name="cloud_soft_active">#b1b1b1</color>
+    <color name="cloud_medium_active">#808080</color>
+    <color name="cloud_strong_active">#4f4f4f</color>
+    <color name="rain_soft_active">#004db5</color>
+    <color name="rain_medium_active">#003782</color>
+    <color name="rain_strong_active">#00214f</color>
+    <color name="snow_active">#007882</color>
+    <color name="hail_active">#00494f</color>
+    <color name="storm_active">#003136</color>
 </resources>
