@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="bindingcollectionadapter-2.0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/57ec865a66235bfa526fcfb9c690d14c5142cc2a/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/57ec865a66235bfa526fcfb9c690d14c5142cc2a/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.tatarka.bindingcollectionadapter2/bindingcollectionadapter/2.0.1/8281ad7feb575d81fcf1159134ab32fd8f809a4b/bindingcollectionadapter-2.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
