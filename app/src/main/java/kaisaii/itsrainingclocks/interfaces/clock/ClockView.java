@@ -1,4 +1,4 @@
-package kaisaii.itsrainingclocks.interfaces;
+package kaisaii.itsrainingclocks.interfaces.clock;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -22,15 +22,13 @@ import java.util.List;
 
 public class ClockView extends ViewGroup {
 
-    private List<Segment> mData = new ArrayList<Segment>();
+    private List<Segment> mData = new ArrayList<>();
     private ClockCircle mClockCircle;
     private Paint mClockPaint;
     private float mTotal = 12;
 
 
     private RectF mPieBounds = new RectF();
-    private float xpad = 20;
-    private float ypad = 20;
 
     public ClockView(Context context) {
         super(context);
@@ -121,10 +119,8 @@ public class ClockView extends ViewGroup {
                 (int) mPieBounds.top,
                 (int) mPieBounds.right,
                 (int) mPieBounds.bottom);
-        //mClockCircle.setPivot(mPieBounds.width() / 2, mPieBounds.height() / 2);
 
         onDataChanged();
-
     }
 
     @Override
