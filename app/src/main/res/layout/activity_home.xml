@@ -11,33 +11,36 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
         <kaisaii.itsrainingclocks.interfaces.clock.MinuteView
             android:id="@+id/minutes"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
 
         <kaisaii.itsrainingclocks.interfaces.clock.ClockView
             android:id="@+id/pm_weather"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:padding="10dp" />
+            android:padding="60dp" />
 
         <kaisaii.itsrainingclocks.interfaces.clock.ClockView
             android:id="@+id/am_weather_background"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="160dp"
+            android:visibility="gone"
             android:layout_centerInParent="true" />
 
         <kaisaii.itsrainingclocks.interfaces.clock.ClockView
             android:id="@+id/am_weather"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="160dp"
+            android:visibility="gone"
             android:layout_centerInParent="true" />
-
-
     </RelativeLayout>
 </layout>

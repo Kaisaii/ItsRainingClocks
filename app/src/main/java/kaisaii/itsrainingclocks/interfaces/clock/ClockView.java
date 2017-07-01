@@ -21,14 +21,16 @@ import java.util.List;
  */
 
 public class ClockView extends ViewGroup {
+    private List<Segment> pmSegments = new ArrayList<>();
+    private List<Segment> amSegments = new ArrayList<>();
 
-    private List<Segment> mData = new ArrayList<>();
-    private ClockCircle mClockCircle;
+    private ClockCircle pmCircle;
+    private ClockCircle amCircle;
     private Paint mClockPaint;
     private float mTotal = 12;
 
-
-    private RectF mPieBounds = new RectF();
+    private RectF pmBounds = new RectF();
+    private RectF amBounds = new RectF();
 
     public ClockView(Context context) {
         super(context);
@@ -49,8 +51,8 @@ public class ClockView extends ViewGroup {
         mClockPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mClockPaint.setStyle(Paint.Style.FILL);
 
-        mClockCircle = new ClockCircle(getContext());
-        addView(mClockCircle);
+        pmCircle = new ClockCircle(getContext());
+        addView(pmCircle);
     }
 
     public int addItem(float value, int color) {
@@ -58,18 +60,18 @@ public class ClockView extends ViewGroup {
         it.mColor = ContextCompat.getColor(getContext(), color);
         it.mValue = value;
 
-        mData.add(it);
+        pmSegments.add(it);
         onDataChanged();
 
-        return mData.size() - 1;
+        return pmSegments.size() - 1;
     }
 
     /**
-     * Calculate all views when mData changed
+     * Calculate all views when pmSegments changed
      */
     private void onDataChanged() {
         int currentAngle = 0;
-        for (Segment it : mData) {
+        for (Segment it : pmSegments) {
             // Calculate angles
             it.mStartAngle = currentAngle;
             it.mEndAngle = (int) ((float) currentAngle + it.mValue * 360.0f / mTotal);
@@ -77,8 +79,8 @@ public class ClockView extends ViewGroup {
 
             // Background color of item
             it.mShader = new SweepGradient(
-                    mPieBounds.width() / 2.0f,
-                    mPieBounds.height() / 2.0f,
+                    pmBounds.width() / 2.0f,
+                    pmBounds.height() / 2.0f,
                     new int[]{
                             it.mColor,
                             it.mColor,
@@ -97,7 +99,6 @@ public class ClockView extends ViewGroup {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
         // Evaluate view padding
         float xpad = (float) (getPaddingLeft() + getPaddingRight());
         float ypad = (float) (getPaddingTop() + getPaddingBottom());
@@ -107,18 +108,20 @@ public class ClockView extends ViewGroup {
 
         // Figure out how big we can make the pie.
         float diameter = Math.min(ww, hh);
-        mPieBounds = new RectF(
+
+        float y = ( (hh - diameter) / 2) + getPaddingTop();
+        pmBounds = new RectF(
                 0.0f,
                 0.0f,
                 diameter,
                 diameter);
-        mPieBounds.offsetTo(getPaddingLeft(), getPaddingTop());
+        pmBounds.offsetTo(getPaddingLeft(), y);
 
         // Lay out the child view that actually draws the pie.
-        mClockCircle.layout((int) mPieBounds.left,
-                (int) mPieBounds.top,
-                (int) mPieBounds.right,
-                (int) mPieBounds.bottom);
+        pmCircle.layout((int) pmBounds.left,
+                (int) pmBounds.top,
+                (int) pmBounds.right,
+                (int) pmBounds.bottom);
 
         onDataChanged();
     }
@@ -157,7 +160,7 @@ public class ClockView extends ViewGroup {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            for (Segment it : mData) {
+            for (Segment it : pmSegments) {
                 mClockPaint.setShader(it.mShader);
                 canvas.drawArc(mBounds,
                         360 - 90 + it.mStartAngle,

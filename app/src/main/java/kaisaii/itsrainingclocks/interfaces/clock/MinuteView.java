@@ -23,7 +23,8 @@ import kaisaii.itsrainingclocks.R;
  */
 
 public class MinuteView extends View {
-    RectF mBounds;
+    RectF mBounds = new RectF();
+    private int minutesWidth = 50;
 
     public MinuteView(Context context) {
         super(context);
@@ -67,10 +68,16 @@ public class MinuteView extends View {
 
         int centerX = canvas.getWidth() / 2;
         int centerY = canvas.getHeight() / 2;
+        int radius = centerX - minutesWidth;
 
-        canvas.drawCircle(centerX, centerY, centerX, paint);
+        canvas.drawCircle(centerX, centerY, radius, paint);
     }
 
+    /**
+     * Draw blue circle and place it on first circle
+     * Angle depends on current Time
+     * @param canvas
+     */
     private void drawMinutes(Canvas canvas) {
         Calendar rightNow = Calendar.getInstance();
         int minutes = rightNow.get(Calendar.MINUTE);
@@ -79,7 +86,7 @@ public class MinuteView extends View {
 
         int canvasCenterX = canvas.getWidth() / 2;
         int canvasCenterY = canvas.getHeight() / 2;
-        int radius = canvasCenterX;
+        int radius = canvasCenterX - minutesWidth;
 
         float centerX = (float) (canvasCenterX + radius * Math.cos(minuteRad));
         float centerY = (float) (canvasCenterY + radius * Math.sin(minuteRad));
@@ -88,7 +95,12 @@ public class MinuteView extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(ContextCompat.getColor(getContext(), R.color.hail_active));
 
-        canvas.drawCircle(centerX, centerY, 50, paint);
+        canvas.drawCircle(centerX, centerY, minutesWidth, paint);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        mBounds.offsetTo(getPaddingLeft(), getPaddingTop());
     }
 
     @Override
