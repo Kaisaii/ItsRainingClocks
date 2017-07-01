@@ -21,26 +21,10 @@
             android:layout_centerInParent="true" />
 
         <kaisaii.itsrainingclocks.interfaces.clock.ClockView
-            android:id="@+id/pm_weather"
+            android:id="@+id/clock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:padding="60dp" />
-
-        <kaisaii.itsrainingclocks.interfaces.clock.ClockView
-            android:id="@+id/am_weather_background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="160dp"
-            android:visibility="gone"
-            android:layout_centerInParent="true" />
-
-        <kaisaii.itsrainingclocks.interfaces.clock.ClockView
-            android:id="@+id/am_weather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="160dp"
-            android:visibility="gone"
-            android:layout_centerInParent="true" />
     </RelativeLayout>
 </layout>

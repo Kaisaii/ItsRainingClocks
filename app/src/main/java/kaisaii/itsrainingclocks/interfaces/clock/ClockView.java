@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import kaisaii.itsrainingclocks.R;
+
 
 /**
  * Created by salon on 28/06/17.
@@ -30,7 +32,6 @@ public class ClockView extends ViewGroup {
     private float mTotal = 12;
 
     private RectF pmBounds = new RectF();
-    private RectF amBounds = new RectF();
 
     public ClockView(Context context) {
         super(context);
@@ -50,28 +51,45 @@ public class ClockView extends ViewGroup {
     private void init() {
         mClockPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mClockPaint.setStyle(Paint.Style.FILL);
+        mClockPaint.setStrokeWidth(0);
 
-        pmCircle = new ClockCircle(getContext());
+        pmCircle = new ClockCircle(getContext(),SegmentTypeEnum.PM);
         addView(pmCircle);
+
+        amCircle = new ClockCircle(getContext(),SegmentTypeEnum.AM);
+        addView(amCircle);
     }
 
-    public int addItem(float value, int color) {
+    /**
+     * Add segment to external circle (afternoon segment)
+     * @param value
+     * @param color
+     * @return
+     */
+    public int addItem(SegmentTypeEnum type, float value, int color) {
         Segment it = new Segment();
         it.mColor = ContextCompat.getColor(getContext(), color);
         it.mValue = value;
 
-        pmSegments.add(it);
-        onDataChanged();
-
-        return pmSegments.size() - 1;
+        switch (type) {
+            case AM:
+                amSegments.add(it);
+                onDataChanged(amSegments);
+                return amSegments.size() - 1;
+            case PM:
+                pmSegments.add(it);
+                onDataChanged(pmSegments);
+                return pmSegments.size() - 1;
+        }
+        return 0;
     }
 
     /**
      * Calculate all views when pmSegments changed
      */
-    private void onDataChanged() {
+    private void onDataChanged(List<Segment> segments) {
         int currentAngle = 0;
-        for (Segment it : pmSegments) {
+        for (Segment it : segments) {
             // Calculate angles
             it.mStartAngle = currentAngle;
             it.mEndAngle = (int) ((float) currentAngle + it.mValue * 360.0f / mTotal);
@@ -123,7 +141,13 @@ public class ClockView extends ViewGroup {
                 (int) pmBounds.right,
                 (int) pmBounds.bottom);
 
-        onDataChanged();
+        amCircle.layout((int) (pmBounds.left+(diameter/4)),
+                (int) (pmBounds.top+(diameter/4)),
+                (int) (pmBounds.right-(diameter/4)),
+                (int) (pmBounds.bottom-(diameter/4)));
+
+        onDataChanged(amSegments);
+        onDataChanged(pmSegments);
     }
 
     @Override
@@ -147,6 +171,12 @@ public class ClockView extends ViewGroup {
      */
     private class ClockCircle extends View {
         RectF mBounds;
+        SegmentTypeEnum type;
+
+        public ClockCircle(Context context, SegmentTypeEnum type) {
+            super(context);
+            this.type = type;
+        }
 
         public ClockCircle(Context context) {
             super(context);
@@ -160,8 +190,35 @@ public class ClockView extends ViewGroup {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            for (Segment it : pmSegments) {
+            List<Segment> segments = new ArrayList<>();
+            switch (type) {
+                case AM:
+                    segments = amSegments;
+
+                    // Draw white background to avoid transparency between pm & am
+                    Paint whitePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                    whitePaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                    canvas.drawCircle(mBounds.centerX(), mBounds.centerY(), mBounds.width()/2, whitePaint);
+                    break;
+                case PM:
+                    segments = pmSegments;
+                    break;
+            }
+
+            Paint whiteStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
+            whiteStroke.setStyle(Paint.Style.STROKE);
+            whiteStroke.setStrokeWidth(2);
+            whiteStroke.setColor(ContextCompat.getColor(ClockView.this.getContext(),R.color.white));
+
+            for (Segment it : segments) {
                 mClockPaint.setShader(it.mShader);
+
+                canvas.drawArc(mBounds,
+                        360 - 90 + it.mStartAngle,
+                        it.mEndAngle - it.mStartAngle,
+                        true,
+                        whiteStroke);
+
                 canvas.drawArc(mBounds,
                         360 - 90 + it.mStartAngle,
                         it.mEndAngle - it.mStartAngle,
@@ -172,7 +229,7 @@ public class ClockView extends ViewGroup {
 
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-            mBounds = new RectF(0,0,w,h);
+            mBounds = new RectF(2,2,w-2,h-2);
         }
     }
 
