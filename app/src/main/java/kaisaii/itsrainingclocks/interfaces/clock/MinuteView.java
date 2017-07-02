@@ -2,19 +2,14 @@ package kaisaii.itsrainingclocks.interfaces.clock;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import kaisaii.itsrainingclocks.R;
 
@@ -25,6 +20,7 @@ import kaisaii.itsrainingclocks.R;
 public class MinuteView extends View {
     RectF mBounds = new RectF();
     private int minutesWidth = 50;
+    private int minutesValue = 0;
 
     public MinuteView(Context context) {
         super(context);
@@ -53,6 +49,11 @@ public class MinuteView extends View {
         drawMinutes(canvas);
     }
 
+    public void updateMinutes(int minutes) {
+        minutesValue = minutes;
+        invalidate();
+    }
+
     /**
      * Draw dashed circle around clock
      * @param canvas
@@ -79,10 +80,7 @@ public class MinuteView extends View {
      * @param canvas
      */
     private void drawMinutes(Canvas canvas) {
-        Calendar rightNow = Calendar.getInstance();
-        int minutes = rightNow.get(Calendar.MINUTE);
-
-        double minuteRad = (minutes * 2 * Math.PI / 60) - Math.PI / 2;
+        double minuteRad = (minutesValue * 2 * Math.PI / 60) - Math.PI / 2;
 
         int canvasCenterX = canvas.getWidth() / 2;
         int canvasCenterY = canvas.getHeight() / 2;

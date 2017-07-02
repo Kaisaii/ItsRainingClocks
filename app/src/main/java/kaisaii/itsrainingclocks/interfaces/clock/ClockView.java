@@ -66,22 +66,39 @@ public class ClockView extends ViewGroup {
      * @param color
      * @return
      */
-    public int addItem(SegmentTypeEnum type, float value, int color) {
+    public int addItem(SegmentTypeEnum type, float value, int color, int activeColor, boolean active) {
         Segment it = new Segment();
         it.mColor = ContextCompat.getColor(getContext(), color);
+        it.mActiveColor = ContextCompat.getColor(getContext(), activeColor);
         it.mValue = value;
+        it.active = active;
 
         switch (type) {
             case AM:
                 amSegments.add(it);
                 onDataChanged(amSegments);
-                return amSegments.size() - 1;
+                return lastIndexFor(amSegments);
             case PM:
                 pmSegments.add(it);
                 onDataChanged(pmSegments);
-                return pmSegments.size() - 1;
+                return lastIndexFor(pmSegments);
         }
         return 0;
+    }
+
+    public int lastIndexFor(List<Segment> segments) {
+        int index = 0;
+        for (Segment segment : segments) {
+            index += segment.mValue;
+        }
+        return index;
+    }
+
+    public void cleanSegments() {
+        amSegments.clear();
+        pmSegments.clear();
+        onDataChanged(amSegments);
+        onDataChanged(pmSegments);
     }
 
     /**
@@ -96,7 +113,7 @@ public class ClockView extends ViewGroup {
             currentAngle = it.mEndAngle;
 
             // Background color of item
-            it.mShader = new SweepGradient(
+            /*it.mShader = new SweepGradient(
                     pmBounds.width() / 2.0f,
                     pmBounds.height() / 2.0f,
                     new int[]{
@@ -111,7 +128,7 @@ public class ClockView extends ViewGroup {
                             (float) (360 - it.mStartAngle) / 360.0f,
                             1.0f
                     }
-            );
+            );*/
         }
     }
 
@@ -172,18 +189,12 @@ public class ClockView extends ViewGroup {
     private class ClockCircle extends View {
         RectF mBounds;
         SegmentTypeEnum type;
+        Paint backgroundWhitePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint whiteStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         public ClockCircle(Context context, SegmentTypeEnum type) {
             super(context);
             this.type = type;
-        }
-
-        public ClockCircle(Context context) {
-            super(context);
-        }
-
-        public ClockCircle(Context context, @Nullable AttributeSet attrs) {
-            super(context, attrs);
         }
 
         @Override
@@ -196,22 +207,24 @@ public class ClockView extends ViewGroup {
                     segments = amSegments;
 
                     // Draw white background to avoid transparency between pm & am
-                    Paint whitePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                    whitePaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
-                    canvas.drawCircle(mBounds.centerX(), mBounds.centerY(), mBounds.width()/2, whitePaint);
+                    backgroundWhitePaint.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                    canvas.drawCircle(mBounds.centerX(), mBounds.centerY(), mBounds.width()/2, backgroundWhitePaint);
                     break;
                 case PM:
                     segments = pmSegments;
                     break;
             }
 
-            Paint whiteStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
             whiteStroke.setStyle(Paint.Style.STROKE);
             whiteStroke.setStrokeWidth(2);
             whiteStroke.setColor(ContextCompat.getColor(ClockView.this.getContext(),R.color.white));
 
             for (Segment it : segments) {
-                mClockPaint.setShader(it.mShader);
+                //mClockPaint.setShader(it.mShader);
+                if (it.active)
+                    mClockPaint.setColor(it.mActiveColor);
+                else
+                    mClockPaint.setColor(it.mColor);
 
                 canvas.drawArc(mBounds,
                         360 - 90 + it.mStartAngle,
@@ -239,12 +252,13 @@ public class ClockView extends ViewGroup {
      * (max 12 for the 12 hours on clock)
      */
     private class Segment {
-        public float mValue;
-        public int mColor;
+        float mValue;
+        int mColor;
+        int mActiveColor;
+        boolean active;
 
-        public int mStartAngle;
-        public int mEndAngle;
-        public int mHighlight;
-        public Shader mShader;
+        int mStartAngle;
+        int mEndAngle;
+        // Shader mShader;
     }
 }

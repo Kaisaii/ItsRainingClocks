@@ -19,15 +19,15 @@
     <color name="storm">#64003136</color>
 
 
-    <color name="sun_active">#ffea00</color>
-    <color name="sun_cloudy_active">#E1CE9A</color>
-    <color name="cloud_soft_active">#b1b1b1</color>
-    <color name="cloud_medium_active">#808080</color>
-    <color name="cloud_strong_active">#4f4f4f</color>
-    <color name="rain_soft_active">#004db5</color>
-    <color name="rain_medium_active">#003782</color>
-    <color name="rain_strong_active">#00214f</color>
-    <color name="snow_active">#007882</color>
-    <color name="hail_active">#00494f</color>
-    <color name="storm_active">#003136</color>
+    <color name="sun_active">#ffffea00</color>
+    <color name="sun_cloudy_active">#ffE1CE9A</color>
+    <color name="cloud_soft_active">#ffb1b1b1</color>
+    <color name="cloud_medium_active">#ff808080</color>
+    <color name="cloud_strong_active">#ff4f4f4f</color>
+    <color name="rain_soft_active">#ff004db5</color>
+    <color name="rain_medium_active">#ff003782</color>
+    <color name="rain_strong_active">#ff00214f</color>
+    <color name="snow_active">#ff007882</color>
+    <color name="hail_active">#ff00494f</color>
+    <color name="storm_active">#ff003136</color>
 </resources>
